@@ -1,7 +1,4 @@
-# Colab already provides torch, numpy, pandas, matplotlib and pyyaml.
-# Locally: pip install -r requirements.txt
 torch
 numpy
 pandas
 matplotlib
-pyyaml

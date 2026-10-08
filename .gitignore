@@ -169,5 +169,4 @@ cython_debug/
 # Large or regenerable project files
 checkpoints/*
 !checkpoints/.gitkeep
-data/*
-!data/README.md
+data/
