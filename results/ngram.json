@@ -1,0 +1,446 @@
+{
+  "best": {
+    "order": 5,
+    "discount": 0.75,
+    "val_bpc": 2.1431896583791428,
+    "val_bpc_by_fold": {
+      "0": 2.2356423785744375,
+      "1": 2.1146415564469216,
+      "2": 2.0792850401160687
+    }
+  },
+  "grid": [
+    {
+      "fold": 0,
+      "order": 1,
+      "discount": 0.5,
+      "val_bpc": 4.775650162405235
+    },
+    {
+      "fold": 0,
+      "order": 2,
+      "discount": 0.5,
+      "val_bpc": 3.5733502413511906
+    },
+    {
+      "fold": 0,
+      "order": 3,
+      "discount": 0.5,
+      "val_bpc": 2.875437028153923
+    },
+    {
+      "fold": 0,
+      "order": 4,
+      "discount": 0.5,
+      "val_bpc": 2.3739636611753085
+    },
+    {
+      "fold": 0,
+      "order": 5,
+      "discount": 0.5,
+      "val_bpc": 2.2577205246882794
+    },
+    {
+      "fold": 0,
+      "order": 6,
+      "discount": 0.5,
+      "val_bpc": 2.3507011386777217
+    },
+    {
+      "fold": 0,
+      "order": 7,
+      "discount": 0.5,
+      "val_bpc": 2.5212212260936497
+    },
+    {
+      "fold": 0,
+      "order": 8,
+      "discount": 0.5,
+      "val_bpc": 2.7073824609819637
+    },
+    {
+      "fold": 0,
+      "order": 1,
+      "discount": 0.75,
+      "val_bpc": 4.775650162405235
+    },
+    {
+      "fold": 0,
+      "order": 2,
+      "discount": 0.75,
+      "val_bpc": 3.5735473623710523
+    },
+    {
+      "fold": 0,
+      "order": 3,
+      "discount": 0.75,
+      "val_bpc": 2.876829438119364
+    },
+    {
+      "fold": 0,
+      "order": 4,
+      "discount": 0.75,
+      "val_bpc": 2.3722026403271417
+    },
+    {
+      "fold": 0,
+      "order": 5,
+      "discount": 0.75,
+      "val_bpc": 2.2356423785744375
+    },
+    {
+      "fold": 0,
+      "order": 6,
+      "discount": 0.75,
+      "val_bpc": 2.279485803700299
+    },
+    {
+      "fold": 0,
+      "order": 7,
+      "discount": 0.75,
+      "val_bpc": 2.379731433993975
+    },
+    {
+      "fold": 0,
+      "order": 8,
+      "discount": 0.75,
+      "val_bpc": 2.486833740263501
+    },
+    {
+      "fold": 0,
+      "order": 1,
+      "discount": 0.9,
+      "val_bpc": 4.775650162405235
+    },
+    {
+      "fold": 0,
+      "order": 2,
+      "discount": 0.9,
+      "val_bpc": 3.5737277944497925
+    },
+    {
+      "fold": 0,
+      "order": 3,
+      "discount": 0.9,
+      "val_bpc": 2.879204260626963
+    },
+    {
+      "fold": 0,
+      "order": 4,
+      "discount": 0.9,
+      "val_bpc": 2.378187740802497
+    },
+    {
+      "fold": 0,
+      "order": 5,
+      "discount": 0.9,
+      "val_bpc": 2.241212402890985
+    },
+    {
+      "fold": 0,
+      "order": 6,
+      "discount": 0.9,
+      "val_bpc": 2.273279436408099
+    },
+    {
+      "fold": 0,
+      "order": 7,
+      "discount": 0.9,
+      "val_bpc": 2.352214042049475
+    },
+    {
+      "fold": 0,
+      "order": 8,
+      "discount": 0.9,
+      "val_bpc": 2.4321048937213163
+    },
+    {
+      "fold": 1,
+      "order": 1,
+      "discount": 0.5,
+      "val_bpc": 4.763414462974324
+    },
+    {
+      "fold": 1,
+      "order": 2,
+      "discount": 0.5,
+      "val_bpc": 3.5452373924320906
+    },
+    {
+      "fold": 1,
+      "order": 3,
+      "discount": 0.5,
+      "val_bpc": 2.7959855718088016
+    },
+    {
+      "fold": 1,
+      "order": 4,
+      "discount": 0.5,
+      "val_bpc": 2.2772749787156146
+    },
+    {
+      "fold": 1,
+      "order": 5,
+      "discount": 0.5,
+      "val_bpc": 2.1317869295250613
+    },
+    {
+      "fold": 1,
+      "order": 6,
+      "discount": 0.5,
+      "val_bpc": 2.1984692180968595
+    },
+    {
+      "fold": 1,
+      "order": 7,
+      "discount": 0.5,
+      "val_bpc": 2.352534162296592
+    },
+    {
+      "fold": 1,
+      "order": 8,
+      "discount": 0.5,
+      "val_bpc": 2.526372097876603
+    },
+    {
+      "fold": 1,
+      "order": 1,
+      "discount": 0.75,
+      "val_bpc": 4.763414462974324
+    },
+    {
+      "fold": 1,
+      "order": 2,
+      "discount": 0.75,
+      "val_bpc": 3.545422543163882
+    },
+    {
+      "fold": 1,
+      "order": 3,
+      "discount": 0.75,
+      "val_bpc": 2.796930561921475
+    },
+    {
+      "fold": 1,
+      "order": 4,
+      "discount": 0.75,
+      "val_bpc": 2.2761433732465735
+    },
+    {
+      "fold": 1,
+      "order": 5,
+      "discount": 0.75,
+      "val_bpc": 2.1146415564469216
+    },
+    {
+      "fold": 1,
+      "order": 6,
+      "discount": 0.75,
+      "val_bpc": 2.1372110077445168
+    },
+    {
+      "fold": 1,
+      "order": 7,
+      "discount": 0.75,
+      "val_bpc": 2.225154447449465
+    },
+    {
+      "fold": 1,
+      "order": 8,
+      "discount": 0.75,
+      "val_bpc": 2.32367805800504
+    },
+    {
+      "fold": 1,
+      "order": 1,
+      "discount": 0.9,
+      "val_bpc": 4.763414462974324
+    },
+    {
+      "fold": 1,
+      "order": 2,
+      "discount": 0.9,
+      "val_bpc": 3.545561694513268
+    },
+    {
+      "fold": 1,
+      "order": 3,
+      "discount": 0.9,
+      "val_bpc": 2.7982102590938855
+    },
+    {
+      "fold": 1,
+      "order": 4,
+      "discount": 0.9,
+      "val_bpc": 2.2801611182985244
+    },
+    {
+      "fold": 1,
+      "order": 5,
+      "discount": 0.9,
+      "val_bpc": 2.1193910212451175
+    },
+    {
+      "fold": 1,
+      "order": 6,
+      "discount": 0.9,
+      "val_bpc": 2.1322182179447027
+    },
+    {
+      "fold": 1,
+      "order": 7,
+      "discount": 0.9,
+      "val_bpc": 2.2003070795109334
+    },
+    {
+      "fold": 1,
+      "order": 8,
+      "discount": 0.9,
+      "val_bpc": 2.273380937536194
+    },
+    {
+      "fold": 2,
+      "order": 1,
+      "discount": 0.5,
+      "val_bpc": 4.852728250395259
+    },
+    {
+      "fold": 2,
+      "order": 2,
+      "discount": 0.5,
+      "val_bpc": 3.5489584693737704
+    },
+    {
+      "fold": 2,
+      "order": 3,
+      "discount": 0.5,
+      "val_bpc": 2.7604765119518926
+    },
+    {
+      "fold": 2,
+      "order": 4,
+      "discount": 0.5,
+      "val_bpc": 2.2526954248542066
+    },
+    {
+      "fold": 2,
+      "order": 5,
+      "discount": 0.5,
+      "val_bpc": 2.0964026288437214
+    },
+    {
+      "fold": 2,
+      "order": 6,
+      "discount": 0.5,
+      "val_bpc": 2.1423504000642595
+    },
+    {
+      "fold": 2,
+      "order": 7,
+      "discount": 0.5,
+      "val_bpc": 2.2807334131469323
+    },
+    {
+      "fold": 2,
+      "order": 8,
+      "discount": 0.5,
+      "val_bpc": 2.446054868756546
+    },
+    {
+      "fold": 2,
+      "order": 1,
+      "discount": 0.75,
+      "val_bpc": 4.852728250395259
+    },
+    {
+      "fold": 2,
+      "order": 2,
+      "discount": 0.75,
+      "val_bpc": 3.5490147886202545
+    },
+    {
+      "fold": 2,
+      "order": 3,
+      "discount": 0.75,
+      "val_bpc": 2.7607420152993587
+    },
+    {
+      "fold": 2,
+      "order": 4,
+      "discount": 0.75,
+      "val_bpc": 2.250986237544582
+    },
+    {
+      "fold": 2,
+      "order": 5,
+      "discount": 0.75,
+      "val_bpc": 2.0792850401160687
+    },
+    {
+      "fold": 2,
+      "order": 6,
+      "discount": 0.75,
+      "val_bpc": 2.083421891818566
+    },
+    {
+      "fold": 2,
+      "order": 7,
+      "discount": 0.75,
+      "val_bpc": 2.159332493956652
+    },
+    {
+      "fold": 2,
+      "order": 8,
+      "discount": 0.75,
+      "val_bpc": 2.2513319019621765
+    },
+    {
+      "fold": 2,
+      "order": 1,
+      "discount": 0.9,
+      "val_bpc": 4.852728250395259
+    },
+    {
+      "fold": 2,
+      "order": 2,
+      "discount": 0.9,
+      "val_bpc": 3.5490914505330395
+    },
+    {
+      "fold": 2,
+      "order": 3,
+      "discount": 0.9,
+      "val_bpc": 2.7617617579075513
+    },
+    {
+      "fold": 2,
+      "order": 4,
+      "discount": 0.9,
+      "val_bpc": 2.254884592668773
+    },
+    {
+      "fold": 2,
+      "order": 5,
+      "discount": 0.9,
+      "val_bpc": 2.0839196190665237
+    },
+    {
+      "fold": 2,
+      "order": 6,
+      "discount": 0.9,
+      "val_bpc": 2.078998095531111
+    },
+    {
+      "fold": 2,
+      "order": 7,
+      "discount": 0.9,
+      "val_bpc": 2.1366319133258402
+    },
+    {
+      "fold": 2,
+      "order": 8,
+      "discount": 0.9,
+      "val_bpc": 2.2038267899836423
+    }
+  ]
+}
