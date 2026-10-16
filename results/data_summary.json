@@ -1,13 +1,36 @@
 {
   "total_chars": 1115394,
+  "n_folds": 10,
   "split_chars": {
-    "train": 892324,
-    "val": 111532,
+    "dev": 1003856,
     "test": 111538
   },
+  "val_chars_by_fold": [
+    100428,
+    100383,
+    100351,
+    100388,
+    100386,
+    100418,
+    100346,
+    100402,
+    100370,
+    100384
+  ],
   "vocab_size": 65,
   "unseen_chars": {
-    "val": [],
-    "test": []
+    "test": [],
+    "val_fold0": [],
+    "val_fold1": [],
+    "val_fold2": [],
+    "val_fold3": [],
+    "val_fold4": [],
+    "val_fold5": [],
+    "val_fold6": [
+      "$"
+    ],
+    "val_fold7": [],
+    "val_fold8": [],
+    "val_fold9": []
   }
 }
