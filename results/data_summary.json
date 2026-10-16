@@ -1,0 +1,13 @@
+{
+  "total_chars": 1115394,
+  "split_chars": {
+    "train": 892324,
+    "val": 111532,
+    "test": 111538
+  },
+  "vocab_size": 65,
+  "unseen_chars": {
+    "val": [],
+    "test": []
+  }
+}

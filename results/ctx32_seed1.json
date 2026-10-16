@@ -1,0 +1,89 @@
+{
+  "config": {
+    "context_len": 32,
+    "seed": 1,
+    "n_layer": 4,
+    "n_head": 4,
+    "n_embd": 192,
+    "dropout": 0.1,
+    "chars_per_step": 16384,
+    "max_steps": 3000,
+    "lr": 0.001,
+    "min_lr": 0.0001,
+    "weight_decay": 0.1,
+    "grad_clip": 1.0,
+    "eval_interval": 250,
+    "eval_batches": 20
+  },
+  "batch_size": 512,
+  "num_params": 1798464,
+  "device": "Tesla T4",
+  "torch_version": "2.11.0+cu130",
+  "step": 3000,
+  "best_step": 3000,
+  "best_val_loss": 1.4956847429275513,
+  "train_seconds": 100.56282472610474,
+  "history": [
+    {
+      "step": 250,
+      "train_loss": 2.2567822093963623,
+      "val_loss": 1.863035660982132
+    },
+    {
+      "step": 500,
+      "train_loss": 1.7032169880867005,
+      "val_loss": 1.6643562972545625
+    },
+    {
+      "step": 750,
+      "train_loss": 1.5546288104057313,
+      "val_loss": 1.5963505506515503
+    },
+    {
+      "step": 1000,
+      "train_loss": 1.483968674182892,
+      "val_loss": 1.5543451011180878
+    },
+    {
+      "step": 1250,
+      "train_loss": 1.4387874698638916,
+      "val_loss": 1.5381802558898925
+    },
+    {
+      "step": 1500,
+      "train_loss": 1.4067858653068543,
+      "val_loss": 1.5220600247383118
+    },
+    {
+      "step": 1750,
+      "train_loss": 1.384827820301056,
+      "val_loss": 1.5097951233386993
+    },
+    {
+      "step": 2000,
+      "train_loss": 1.3648298530578613,
+      "val_loss": 1.5074205279350281
+    },
+    {
+      "step": 2250,
+      "train_loss": 1.3483077044487,
+      "val_loss": 1.5016867697238923
+    },
+    {
+      "step": 2500,
+      "train_loss": 1.3364037833213807,
+      "val_loss": 1.4974015533924103
+    },
+    {
+      "step": 2750,
+      "train_loss": 1.3274942808151244,
+      "val_loss": 1.497714787721634
+    },
+    {
+      "step": 3000,
+      "train_loss": 1.3220845727920532,
+      "val_loss": 1.4956847429275513
+    }
+  ],
+  "val_bpc": 2.0371677670807724
+}
