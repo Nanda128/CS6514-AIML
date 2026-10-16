@@ -19,6 +19,8 @@ import matplotlib.pyplot as plt
 
 
 ROOT = Path(__file__).resolve().parent
+CONTEXT_COLOURS = ["#32658a", "#c35c35", "#4a8a3c", "#7a4f9a"]
+LINE_STYLES = ["-", "--", ":", "-."]
 
 
 def metric_label(metric):
@@ -67,6 +69,19 @@ def load_runs(results_dir):
     return runs, skipped
 
 
+def load_ngram(results_dir):
+    path = results_dir / "ngram.json"
+    if not path.exists():
+        return None
+    best = json.loads(path.read_text(encoding="utf-8"))["best"]
+    if "val_bpc_by_fold" not in best:
+        return None
+    return {
+        "label": f"{best['order']}-gram (d={best['discount']})",
+        "by_fold": {int(fold): finite_number(bpc, "val_bpc_by_fold", path) for fold, bpc in best["val_bpc_by_fold"].items()},
+    }
+
+
 def write_csv(path, fields, rows):
     with path.open("w", newline="", encoding="utf-8") as file:
         writer = csv.DictWriter(file, fieldnames=fields)
@@ -103,7 +118,7 @@ def plot_bpc(rows, metric, output_dir):
     ax.set_ylabel(metric_label(metric) + " (lower is better)")
     ax.set_title(f"{metric_label(metric)} by context length")
     ax.grid(axis="y", alpha=0.25)
-    ax.scatter([], [], color="#32658a", label="Individual seed")
+    ax.scatter([], [], color="#32658a", label="Individual seed/fold")
     ax.scatter([], [], marker="D", color="#c35c35", label="Mean ± sample SD (n ≥ 2)")
     ax.legend()
     save_plot(fig, output_dir / f"{metric}_by_context.png")
@@ -120,31 +135,81 @@ def plot_paired(rows, metric, output_dir):
         return False
     fig, ax = plt.subplots(figsize=(8, 5))
     for seed, values in sorted(paired.items()):
-        ax.plot([row["context_len"] for row in values], [row[metric] for row in values], marker="o", label=f"Seed {seed}")
+        ax.plot([row["context_len"] for row in values], [row[metric] for row in values], marker="o", label=f"Seed/fold {seed}")
     ax.set_xticks(sorted({row["context_len"] for values in paired.values() for row in values}))
     ax.set_xlabel("Context length (characters)")
     ax.set_ylabel(metric_label(metric) + " (lower is better)")
-    ax.set_title("Matched seed comparisons")
+    ax.set_title("Matched seed/fold comparisons")
     ax.grid(alpha=0.25)
     ax.legend()
     save_plot(fig, output_dir / f"{metric}_paired_seeds.png")
     return True
 
 
+def plot_deltas(paired, metric, output_dir):
+    comparisons = sorted({(pair["shorter_context"], pair["longer_context"]) for pair in paired})
+    if not comparisons:
+        return False
+    fig, ax = plt.subplots(figsize=(8, 5))
+    for x, comparison in enumerate(comparisons):
+        pairs = [pair for pair in paired if (pair["shorter_context"], pair["longer_context"]) == comparison]
+        deltas = [pair["delta_bpc"] for pair in pairs]
+        ax.scatter([x] * len(deltas), deltas, color="#32658a", alpha=0.7, s=48, zorder=3)
+        for pair in pairs:
+            ax.annotate(f"fold {pair['seed']}", (x, pair["delta_bpc"]), xytext=(8, 0), textcoords="offset points", va="center", fontsize=8)
+        ax.scatter(x, statistics.mean(deltas), marker="D", color="#c35c35", s=70, zorder=4)
+    ax.axhline(0, color="black", linestyle="--", linewidth=1)
+    ax.set_xticks(range(len(comparisons)), [f"{shorter} → {longer}" for shorter, longer in comparisons])
+    ax.set_xlim(-0.5, len(comparisons) - 0.5)
+    ax.set_xlabel("Context comparison")
+    ax.set_ylabel(f"Δ {metric_label(metric)} (longer − shorter)")
+    ax.set_title("Matched differences per seed/fold (below 0 favours the longer context)")
+    ax.grid(axis="y", alpha=0.25)
+    ax.scatter([], [], color="#32658a", label="One seed/fold")
+    ax.scatter([], [], marker="D", color="#c35c35", label="Mean difference")
+    ax.legend()
+    save_plot(fig, output_dir / f"{metric}_matched_deltas.png")
+    return True
+
+
+def plot_reference(rows, ngram, output_dir):
+    folds = sorted(ngram["by_fold"])
+    contexts = sorted({row["context_len"] for row in rows if row["val_bpc"] is not None and row["seed"] in ngram["by_fold"]})
+    if not contexts:
+        return False
+    labels = [ngram["label"]] + [f"context {ctx}" for ctx in contexts]
+    fig, ax = plt.subplots(figsize=(8, 5))
+    for i, fold in enumerate(folds):
+        values = [ngram["by_fold"][fold]] + [
+            next((row["val_bpc"] for row in rows if row["context_len"] == ctx and row["seed"] == fold and row["val_bpc"] is not None), math.nan)
+            for ctx in contexts
+        ]
+        ax.plot(range(len(labels)), values, marker="o", linestyle=LINE_STYLES[i % len(LINE_STYLES)], color="#32658a", alpha=0.8, label=f"Fold {fold}")
+    ax.set_xticks(range(len(labels)), labels)
+    ax.set_ylabel("Validation BPC (lower is better)")
+    ax.set_title("Transformers against the n-gram reference, per fold")
+    ax.grid(axis="y", alpha=0.25)
+    ax.legend()
+    save_plot(fig, output_dir / "val_bpc_vs_ngram.png")
+    return True
+
+
 def plot_history(runs, output_dir):
     fig, ax = plt.subplots(figsize=(9, 5))
     plotted = False
+    colours = {ctx: CONTEXT_COLOURS[i % len(CONTEXT_COLOURS)] for i, ctx in enumerate(sorted({ctx for ctx, _ in runs}))}
+    styles = {seed: LINE_STYLES[i % len(LINE_STYLES)] for i, seed in enumerate(sorted({seed for _, seed in runs}))}
     for (context, seed), run in sorted(runs.items()):
         points = [(p["step"], p["val_loss"]) for p in run["data"]["history"] if "step" in p and "val_loss" in p]
         if points:
             points.sort()
-            ax.plot(*zip(*points), label=f"ctx{context} seed{seed}", alpha=0.8)
+            ax.plot(*zip(*points), color=colours[context], linestyle=styles[seed], label=f"ctx{context} seed/fold {seed}", alpha=0.8)
             plotted = True
     if not plotted:
         plt.close(fig)
         return False
     ax.set_xlabel("Training step")
-    ax.set_ylabel("Sampled validation loss (nats)")
+    ax.set_ylabel("Sampled validation loss (nats, averaged over window positions)")
     ax.set_title("Validation loss during training")
     ax.grid(alpha=0.25)
     ax.legend(fontsize=8, ncol=2)
@@ -163,6 +228,7 @@ def analyse(results_dir, output_dir, metric):
         rows.append({
             "context_len": context,
             "seed": seed,
+            "fold": data.get("fold"),
             "val_bpc": data.get("val_bpc"),
             "test_bpc": data.get("test_bpc"),
             "best_step": data.get("best_step"),
@@ -199,8 +265,13 @@ def analyse(results_dir, output_dir, metric):
     plots = []
     if plot_bpc(rows, metric, output_dir):
         plots.append(f"{metric}_by_context.png")
+    if plot_deltas(paired, metric, output_dir):
+        plots.insert(0, f"{metric}_matched_deltas.png")
     if plot_paired(rows, metric, output_dir):
         plots.append(f"{metric}_paired_seeds.png")
+    ngram = load_ngram(results_dir) if metric == "val_bpc" else None
+    if ngram and plot_reference(rows, ngram, output_dir):
+        plots.append("val_bpc_vs_ngram.png")
     if plot_history(runs, output_dir):
         plots.append("validation_loss_history.png")
 
@@ -212,7 +283,8 @@ def analyse(results_dir, output_dir, metric):
     if skipped:
         lines += ["Skipped non-run JSON: " + ", ".join(skipped) + ".", ""]
     if metric == "val_bpc":
-        lines += ["Validation BPC is measured on the fixed validation targets. It is not a test-set result.", ""]
+        lines += ["Validation BPC is measured on each run's own fold (seed s uses fold s), so the SD across seeds includes differences in fold difficulty. "
+                  "The matched deltas compare contexts on the same fold. It is not a test-set result.", ""]
     lines += ["| Context | Scored runs | Mean BPC | Sample SD |", "| ---: | ---: | ---: | ---: |"]
     for row in summary:
         lines.append(f"| {row['context_len']} | {row['n']} | {fmt(row[f'mean_{metric}'])} | {fmt(row[f'sd_{metric}'])} |")
@@ -222,9 +294,9 @@ def analyse(results_dir, output_dir, metric):
         lines += ["", "SD is shown only where at least two seeds are available. Means with different seed coverage are descriptive and should be interpreted cautiously."]
         lowest = min(summary, key=lambda row: row[f"mean_{metric}"])
         lines += ["", f"The lowest observed mean is at context {lowest['context_len']} ({fmt(lowest[f'mean_{metric}'])} BPC across {lowest['n']} seed(s)). This is a provisional validation comparison until the planned runs are complete."]
-    lines += ["", "## Matched seeds", "", "Delta = longer-context BPC minus shorter-context BPC; a negative value favours the longer context.", ""]
+    lines += ["", "## Matched seeds/folds", "", "Delta = longer-context BPC minus shorter-context BPC; a negative value favours the longer context.", ""]
     if paired:
-        lines += ["| Contexts | Seed | Delta BPC |", "| --- | ---: | ---: |"]
+        lines += ["| Contexts | Seed/fold | Delta BPC |", "| --- | ---: | ---: |"]
         for pair in paired:
             lines.append(f"| {pair['shorter_context']} → {pair['longer_context']} | {pair['seed']} | {pair['delta_bpc']:+.4f} |")
         comparisons = defaultdict(list)
@@ -235,6 +307,14 @@ def analyse(results_dir, output_dir, metric):
             lines.append(f"{shorter} → {longer}: mean matched delta {statistics.mean(deltas):+.4f} BPC across {len(deltas)} seed(s).")
     else:
         lines.append("No matched seeds are available yet.")
+    if ngram:
+        lines += ["", "## N-gram reference", "", f"{ngram['label']}, fitted and scored separately on each fold.", "",
+                  "| Fold | N-gram BPC | " + " | ".join(f"Context {ctx} gap" for ctx in contexts) + " |",
+                  "| ---: | ---: | " + " | ".join("---:" for _ in contexts) + " |"]
+        for fold, bpc in sorted(ngram["by_fold"].items()):
+            gaps = [fmt(lookup[ctx, fold] - bpc) if (ctx, fold) in lookup else "—" for ctx in contexts]
+            lines.append(f"| {fold} | {fmt(bpc)} | " + " | ".join(gaps) + " |")
+        lines += ["", "Gap = transformer BPC minus n-gram BPC on the same fold; negative means the transformer is better."]
     lines += ["", "The training-history plot uses sampled validation loss in nats, which is distinct from fixed-target BPC.", ""]
     if plots:
         lines += ["## Plots", ""] + [f"![{name}](./{name})" for name in plots] + [""]
