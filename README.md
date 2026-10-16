@@ -6,11 +6,15 @@ By Daniel Moody (23370157) & Nandakishore Vinayakrishnan (23070854)
 
 ## Running the experiment
 
-`baseline.ipynb` is the baseline-gate pipeline. The main comparison (contexts 32/128/256 × seeds 0, 1, 2 = 9 runs) is split across two Colab T4 notebooks so the compute is shared:
+Everything is in `pipeline.ipynb`. Open it in Colab on a T4 GPU runtime and use **Runtime → Run all** (about 1–1.5 hours). It:
 
-| Notebook | Runs |
-| --- | --- |
-| `experiment_part1.ipynb` | n-gram reference; ctx32/seed0, ctx128/seed0, ctx256/seed0, ctx256/seed1 |
-| `experiment_part2.ipynb` | ctx32/seed1, ctx128/seed1, ctx32/seed2, ctx128/seed2, ctx256/seed2 |
+1. splits TinyShakespeare into a fixed 10% test set and 10 folds of the remaining 90%;
+2. trains the transformer at contexts 32, 128 and 256 on every fold (30 runs, seed f on fold f), choosing each checkpoint on its validation fold;
+3. fits the n-gram reference on every fold;
+4. scores everything on validation and, once, on the test set;
+5. writes the analysis to `results/`:
+   - `runs.csv`: one row per run, plus one per n-gram fold
+   - `summary.json`: split, settings, statistics, error analysis and training histories
+   - `figures.pdf`: all figures
 
-Each notebook mounts Google Drive and keeps checkpoints in `MyDrive/CS6514-AIML`, so rerunning the training cell after a disconnect resumes from `last.pt`. When it finishes, commit `results/runs/*.json` (each includes `val_bpc`). Keep the `best.pt` checkpoints for the final test evaluation.
+Checkpoints are kept in `MyDrive/CS6514-AIML/checkpoints`; if Colab disconnects, Run all again and it resumes without retraining finished runs.
